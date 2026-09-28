@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard · CodeAssess{% endblock %}
+{% block page_heading %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div>
+    <div class="hero-kicker">PROBLEM DESIGN WORKSPACE</div>
+    <h2>Design better coding assessments.</h2>
+    <p>Create structured problems, generate edge cases, validate expected outputs, and maintain a reusable coding question bank.</p>
+    <a class="btn btn-light" href="{{ url_for('new_problem') }}">Start designing →</a>
+  </div>
+
+  <div class="hero-code">
+    <div class="terminal-top"><span></span><span></span><span></span></div>
+    <pre>problem.topic = "Arrays"
+problem.difficulty = "Medium"
+problem.tests = generate(50)
+
+validate(problem)
+→ READY FOR REVIEW</pre>
+  </div>
+</section>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">TOTAL PROBLEMS</div>
+    <div class="stat-value">{{ total }}</div>
+    <div class="stat-note">Question bank</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">TEST CASES</div>
+    <div class="stat-value">{{ tests }}</div>
+    <div class="stat-note">Saved test data</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">EASY</div>
+    <div class="stat-value">{{ easy }}</div>
+    <div class="stat-note">Difficulty mix</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">MEDIUM</div>
+    <div class="stat-value">{{ medium }}</div>
+    <div class="stat-note">Difficulty mix</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">HARD</div>
+    <div class="stat-value">{{ hard }}</div>
+    <div class="stat-note">Difficulty mix</div>
+  </div>
+</div>
+
+<section class="section-head">
+  <div>
+    <div class="eyebrow">RECENT WORK</div>
+    <h3>Recently updated problems</h3>
+  </div>
+
+  <a class="text-link" href="{{ url_for('problems') }}">View all →</a>
+</section>
+
+<div class="table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>Problem</th>
+        <th>Topic</th>
+        <th>Difficulty</th>
+        <th>Updated</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for p in recent %}
+      <tr>
+        <td>
+          <a class="problem-title" href="{{ url_for('problem_detail', problem_id=p.id) }}">{{ p.title }}</a>
+          <div class="muted">#{{ "%04d"|format(p.id) }}</div>
+        </td>
+
+        <td>{{ p.topic }}</td>
+
+        <td>
+          <span class="badge {{ p.difficulty|lower }}">
+            {{ p.difficulty }}
+          </span>
+        </td>
+
+        <td class="muted">{{ p.updated_at }}</td>
+
+        <td>
+          <a class="row-link" href="{{ url_for('problem_detail', problem_id=p.id) }}">Open →</a>
+        </td>
+      </tr>
+
+      {% else %}
+      <tr>
+        <td colspan="5" class="empty">
+          No problems yet. Create your first problem.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

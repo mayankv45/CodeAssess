@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}{{ problem.title }} · CodeAssess{% endblock %}
+{% block page_heading %}Problem #{{ "%04d"|format(problem.id) }}{% endblock %}
+
+{% block content %}
+<div class="detail-actions">
+  <a class="btn btn-secondary" href="{{ url_for('problems') }}">← Problem Bank</a>
+
+  <div class="action-group">
+    <a class="btn btn-secondary" href="{{ url_for('edit_problem', problem_id=problem.id) }}">Edit</a>
+    <a class="btn btn-secondary" href="{{ url_for('export_problem', problem_id=problem.id) }}">Export JSON</a>
+
+    <form method="post" action="{{ url_for('delete_problem', problem_id=problem.id) }}" onsubmit="return confirm('Delete this problem and its test cases?')">
+      <button class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+</div>
+
+<div class="detail-grid">
+  <main>
+    <section class="panel">
+      <div class="problem-header">
+        <div>
+          <div class="eyebrow">{{ problem.topic.upper() }}</div>
+          <h2>{{ problem.title }}</h2>
+
+          <div class="tag-list">
+            <span class="badge {{ problem.difficulty|lower }}">{{ problem.difficulty }}</span>
+            {% for tag in tags %}
+              <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="limits">
+          <div>
+            <strong>{{ problem.time_limit }}s</strong>
+            <span>Time</span>
+          </div>
+          <div>
+            <strong>{{ problem.memory_limit }} MB</strong>
+            <span>Memory</span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Statement</h3>
+      <div class="prose">{{ problem.statement }}</div>
+
+      {% if problem.input_format %}
+        <h3>Input Format</h3>
+        <pre class="content-box">{{ problem.input_format }}</pre>
+      {% endif %}
+
+      {% if problem.output_format %}
+        <h3>Output Format</h3>
+        <pre class="content-box">{{ problem.output_format }}</pre>
+      {% endif %}
+
+      {% if problem.constraints %}
+        <h3>Constraints</h3>
+        <pre class="content-box">{{ problem.constraints }}</pre>
+      {% endif %}
+
+      {% if problem.examples %}
+        <h3>Examples</h3>
+        <pre class="content-box">{{ problem.examples }}</pre>
+      {% endif %}
+
+      {% if problem.explanation %}
+        <h3>Explanation</h3>
+        <div class="prose">{{ problem.explanation }}</div>
+      {% endif %}
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h3>Reference solution</h3>
+          <p>{{ problem.complexity or 'Complexity not specified.' }}</p>
+        </div>
+      </div>
+
+      {% if problem.solution_cpp %}
+        <div class="code-label">C++</div>
+        <pre class="code-block"><code>{{ problem.solution_cpp }}</code></pre>
+      {% endif %}
+
+      {% if problem.solution_python %}
+        <div class="code-label">Python</div>
+        <pre class="code-block"><code>{{ problem.solution_python }}</code></pre>
+      {% endif %}
+    </section>
+  </main>
+
+  <aside>
+    <section class="panel generator-panel">
+      <div class="panel-heading">
+        <div>
+          <h3>Test Case Generator</h3>
+          <p>Generate structured array cases for rapid review.</p>
+        </div>
+      </div>
+
+      <label>Test type</label>
+      <select id="testType">
+        <option>Random</option>
+        <option>Minimum</option>
+        <option>Maximum</option>
+        <option>Sorted</option>
+        <option>Reverse Sorted</option>
+        <option>All Same</option>
+      </select>
+
+      <div class="two-col">
+        <div>
+          <label>Number of tests</label>
+          <input id="testCount" type="number" value="5" min="1" max="100">
+        </div>
+
+        <div>
+          <label>N max</label>
+          <input id="nMax" type="number" value="20" min="1">
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <label>Value min</label>
+          <input id="valueMin" type="number" value="-100">
+        </div>
+
+        <div>
+          <label>Value max</label>
+          <input id="valueMax" type="number" value="100">
+        </div>
+      </div>
+
+      <button id="generateBtn" class="btn btn-primary btn-wide">
+        ⚡ Generate Test Cases
+      </button>
+
+      <div id="generatorStatus" class="generator-status"></div>
+      <div id="generatedCases"></div>
+
+      <button id="saveGenerated" class="btn btn-secondary btn-wide hidden">
+        Save Generated Cases
+      </button>
+    </section>
+  </aside>
+</div>
+
+<section class="panel tests-panel">
+  <div class="panel-heading">
+    <div>
+      <h3>
+        Saved test cases
+        <span class="count-pill">{{ tests|length }}</span>
+      </h3>
+      <p>Review inputs and trusted expected outputs.</p>
+    </div>
+  </div>
+
+  <div class="test-add">
+    <form method="post" action="{{ url_for('add_test', problem_id=problem.id) }}">
+      <div class="two-col">
+        <div>
+          <label>Test name</label>
+          <input name="name" placeholder="e.g. Large negative values">
+        </div>
+
+        <div>
+          <label>Type</label>
+          <select name="test_type">
+            {% for t in TEST_TYPES if false %}{% endfor %}
+            <option>Custom</option>
+            <option>Edge</option>
+            <option>Random</option>
+            <option>Minimum</option>
+            <option>Maximum</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Input</label>
+      <textarea name="input_data" rows="4" placeholder="5&#10;1 2 3 4 5"></textarea>
+
+      <label>Expected output</label>
+      <textarea name="expected_output" rows="2" placeholder="5"></textarea>
+
+      <button class="btn btn-secondary">＋ Add Test Case</button>
+    </form>
+  </div>
+
+  {% if tests %}
+    <div class="test-list">
+      {% for t in tests %}
+        <div class="test-card">
+          <div class="test-card-head">
+            <div>
+              <strong>{{ t.name }}</strong>
+              <span class="tag">{{ t.test_type }}</span>
+            </div>
+
+            <form method="post" action="{{ url_for('delete_test', test_id=t.id) }}" onsubmit="return confirm('Delete this test case?')">
+              <button class="icon-btn" title="Delete">×</button>
+            </form>
+          </div>
+
+          <div class="two-col">
+            <div>
+              <div class="code-label">INPUT</div>
+              <pre class="code-block small">{{ t.input_data }}</pre>
+            </div>
+
+            <div>
+              <div class="code-label">EXPECTED OUTPUT</div>
+              <pre class="code-block small">{{ t.expected_output }}</pre>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty">
+      No saved test cases yet. Use the generator above or add one manually.
+    </div>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const problemId = {{ problem.id }};
+let generatedCases = [];
+
+const $ = (id) => document.getElementById(id);
+
+$("generateBtn").addEventListener("click", async () => {
+  const status = $("generatorStatus");
+
+  status.textContent = "Generating...";
+  $("generatedCases").innerHTML = "";
+  generatedCases = [];
+
+  try {
+    const response = await fetch("/api/generate-tests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        test_type: $("testType").value,
+        count: $("testCount").value,
+        n_max: $("nMax").value,
+        n_min: 1,
+        value_min: $("valueMin").value,
+        value_max: $("valueMax").value
+      })
+    });
+
+    const data = await response.json();
+
+    generatedCases = data.cases || [];
+
+    status.textContent =
+      `${generatedCases.length} cases generated successfully.`;
+
+    $("generatedCases").innerHTML = generatedCases.map((c) => `
+      <div class="generated-mini">
+        <div><strong>${escapeHtml(c.name)}</strong></div>
+        <pre>${escapeHtml(c.input_data)}</pre>
+        <div class="expected">
+          Expected: ${escapeHtml(c.expected_output)}
+        </div>
+      </div>
+    `).join("");
+
+    $("saveGenerated").classList.toggle(
+      "hidden",
+      generatedCases.length === 0
+    );
+  } catch (err) {
+    status.textContent = "Generation failed.";
+  }
+});
+
+$("saveGenerated").addEventListener("click", async () => {
+  const response = await fetch(
+    `/problems/${problemId}/tests/bulk-save`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        cases: generatedCases
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (data.ok) {
+    location.reload();
+  }
+});
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (m) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[m]));
+}
+</script>
+{% endblock %}

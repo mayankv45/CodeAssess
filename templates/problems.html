@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Problem Bank · CodeAssess{% endblock %}
+{% block page_heading %}Problem Bank{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+  <form class="filter-form" method="get">
+    <input
+      name="q"
+      value="{{ q }}"
+      placeholder="Search title or tags…"
+    >
+
+    <select name="topic">
+      <option value="">All topics</option>
+      {% for t in topics %}
+        <option
+          value="{{ t }}"
+          {{ 'selected' if topic == t else '' }}
+        >
+          {{ t }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <select name="difficulty">
+      <option value="">All difficulties</option>
+      {% for d in difficulties %}
+        <option
+          value="{{ d }}"
+          {{ 'selected' if difficulty == d else '' }}
+        >
+          {{ d }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <button class="btn btn-secondary">Filter</button>
+  </form>
+</div>
+
+<div class="table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>Problem</th>
+        <th>Topic</th>
+        <th>Difficulty</th>
+        <th>Tags</th>
+        <th>Updated</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for p in problems %}
+        <tr>
+          <td>
+            <a
+              class="problem-title"
+              href="{{ url_for('problem_detail', problem_id=p.id) }}"
+            >
+              {{ p.title }}
+            </a>
+            <div class="muted">#{{ "%04d"|format(p.id) }}</div>
+          </td>
+
+          <td>{{ p.topic }}</td>
+
+          <td>
+            <span class="badge {{ p.difficulty|lower }}">
+              {{ p.difficulty }}
+            </span>
+          </td>
+
+          <td>
+            <div class="tag-list">
+              {% for tag in p.tags.split(',')[:3] if tag.strip() %}
+                <span class="tag">{{ tag.strip() }}</span>
+              {% endfor %}
+            </div>
+          </td>
+
+          <td class="muted">{{ p.updated_at }}</td>
+
+          <td>
+            <a
+              class="row-link"
+              href="{{ url_for('problem_detail', problem_id=p.id) }}"
+            >
+              Open →
+            </a>
+          </td>
+        </tr>
+
+      {% else %}
+        <tr>
+          <td colspan="6" class="empty">
+            No matching problems.
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}CodeAssess{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Floating Sidebar Toggle -->
+    <button
+        id="sidebarToggle"
+        class="sidebar-toggle"
+        type="button"
+        aria-label="Hide dashboard panel"
+        title="Hide dashboard panel"
+    >
+        ☰
+    </button>
+
+    <!-- Application Shell -->
+    <div class="app-shell">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <!-- Brand -->
+            <div class="brand">
+                <div class="brand-mark">&lt;/&gt;</div>
+
+                <div>
+                    <div class="brand-name">CodeAssess</div>
+                    <div class="brand-sub">Assessment Studio</div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="nav">
+
+                <!-- Dashboard -->
+                <a
+                    href="{{ url_for('index') }}"
+                    class="{{ 'active' if request.endpoint == 'index' else '' }}"
+                >
+                    <span>▦</span>
+                    Dashboard
+                </a>
+
+                <!-- Problem Bank -->
+                <a
+                    href="{{ url_for('problems') }}"
+                    class="{{ 'active' if request.endpoint in ['problems','problem_detail','new_problem','edit_problem'] else '' }}"
+                >
+                    <span>◈</span>
+                    Problem Bank
+                </a>
+
+                <!-- New Problem -->
+                <a href="{{ url_for('new_problem') }}">
+                    <span>＋</span>
+                    New Problem
+                </a>
+
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+
+                    <!-- Sidebar Toggle -->
+                    <button
+                        id="sidebarToggleTop"
+                        class="sidebar-toggle-top"
+                        type="button"
+                        aria-label="Hide dashboard panel"
+                        title="Hide dashboard panel"
+                    >
+                        ☰
+                    </button>
+
+                    <!-- Page Heading -->
+                    <div>
+                        <div class="eyebrow">CODING ASSESSMENT WORKSPACE</div>
+
+                        <h1>
+                            {% block page_heading %}Dashboard{% endblock %}
+                        </h1>
+                    </div>
+
+                </div>
+
+                <!-- Create Problem -->
+                <a
+                    class="btn btn-primary"
+                    href="{{ url_for('new_problem') }}"
+                >
+                    ＋ Create Problem
+                </a>
+            </header>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-stack">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Page Content -->
+            {% block content %}{% endblock %}
+
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

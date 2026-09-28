@@ -1,0 +1,1093 @@
+/* =========================================================
+   GLOBAL VARIABLES
+   ========================================================= */
+
+:root {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --text: #172033;
+  --muted: #687386;
+  --line: #e7eaf0;
+
+  --primary: #5b5cf0;
+  --primary-dark: #4546d9;
+
+  --dark: #15182b;
+
+  --green: #16845b;
+  --green-bg: #e9f8f0;
+
+  --orange: #b66a00;
+  --orange-bg: #fff3df;
+
+  --red: #bd3b3b;
+  --red-bg: #ffecec;
+
+  --shadow: 0 12px 35px rgba(30, 35, 70, .07);
+}
+
+
+/* =========================================================
+   GLOBAL STYLES
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+  width: 255px;
+  background: var(--dark);
+  color: #e8eaff;
+  padding: 24px 18px;
+
+  display: flex;
+  flex-direction: column;
+
+  position: fixed;
+  inset: 0 auto 0 0;
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 8px 30px;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6b6cf7, #8b6cf8);
+
+  display: grid;
+  place-items: center;
+
+  font-weight: 800;
+  color: white;
+}
+
+.brand-name {
+  font-family: "Space Grotesk";
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: #858aa7;
+  margin-top: 2px;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.nav {
+  display: grid;
+  gap: 7px;
+}
+
+.nav a {
+  padding: 12px 13px;
+  border-radius: 10px;
+
+  color: #aeb3cb;
+  font-size: 14px;
+  font-weight: 600;
+
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.nav a:hover,
+.nav a.active {
+  background: #242842;
+  color: #fff;
+}
+
+.nav a span {
+  width: 18px;
+  text-align: center;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM CARD
+   ========================================================= */
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.side-card {
+  border: 1px solid #30344d;
+  border-radius: 12px;
+
+  padding: 14px;
+  background: #1b1e34;
+}
+
+.side-card-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #858aa7;
+  font-weight: 700;
+}
+
+.side-card-text {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #b7bbcf;
+  margin-top: 7px;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.main {
+  margin-left: 255px;
+  width: calc(100% - 255px);
+  padding: 32px 42px 60px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  color: #7a8294;
+  margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   HEADINGS & TEXT
+   ========================================================= */
+
+h1,
+h2,
+h3 {
+  font-family: "Space Grotesk", Inter, sans-serif;
+}
+
+h1 {
+  font-size: 30px;
+  margin: 0;
+}
+
+h2 {
+  font-size: 29px;
+  line-height: 1.1;
+  margin: 7px 0 12px;
+}
+
+h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 9px;
+
+  padding: 10px 15px;
+
+  font-weight: 700;
+  font-size: 13px;
+
+  cursor: pointer;
+  transition: .18s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #eef0f6;
+  color: #32394a;
+}
+
+.btn-secondary:hover {
+  background: #e2e5ee;
+}
+
+.btn-light {
+  background: white;
+  color: #3236a8;
+  margin-top: 10px;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #606a7e;
+}
+
+.btn-danger {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.btn-wide {
+  width: 100%;
+  margin-top: 8px;
+}
+
+
+/* =========================================================
+   DASHBOARD HERO
+   ========================================================= */
+
+.hero {
+  background: linear-gradient(120deg, #272a57, #3d3e83);
+  color: white;
+
+  border-radius: 18px;
+  padding: 30px 32px;
+
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 30px;
+
+  box-shadow: var(--shadow);
+}
+
+.hero p {
+  color: #d4d6ed;
+  max-width: 650px;
+}
+
+.hero-kicker {
+  font-size: 10px;
+  letter-spacing: .16em;
+  font-weight: 800;
+  color: #aeb1ef;
+}
+
+.hero-code {
+  background: #17192e;
+  border: 1px solid #4b4e82;
+  border-radius: 13px;
+
+  padding: 18px;
+  align-self: center;
+}
+
+.hero-code pre {
+  margin: 10px 0 0;
+  color: #d8dbff;
+
+  font: 13px/1.8 Consolas, monospace;
+  white-space: pre-wrap;
+}
+
+.terminal-top {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-top span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #777aa5;
+}
+
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 13px;
+  margin: 18px 0 35px;
+}
+
+.stat-card {
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+  border-radius: 13px;
+
+  padding: 18px;
+
+  box-shadow: 0 4px 16px rgba(30, 35, 70, .03);
+}
+
+.stat-label {
+  font-size: 9px;
+  letter-spacing: .1em;
+  font-weight: 800;
+  color: #8790a2;
+}
+
+.stat-value {
+  font: 700 29px "Space Grotesk";
+  margin: 7px 0;
+}
+
+.stat-note {
+  font-size: 11px;
+  color: #8a92a3;
+}
+
+
+/* =========================================================
+   SECTIONS & TABLES
+   ========================================================= */
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 12px;
+}
+
+.text-link,
+.row-link {
+  color: #5557db;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.table-card,
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 13px 16px;
+
+  background: #fafbfc;
+  color: #8790a2;
+
+  font-size: 9px;
+  letter-spacing: .09em;
+}
+
+td {
+  padding: 15px 16px;
+  border-top: 1px solid var(--line);
+
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.problem-title {
+  font-weight: 700;
+}
+
+.problem-title:hover {
+  color: var(--primary);
+}
+
+.muted {
+  color: #8a92a3;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+
+/* =========================================================
+   BADGES & TAGS
+   ========================================================= */
+
+.badge {
+  display: inline-flex;
+  padding: 5px 8px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.badge.easy {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.badge.medium {
+  background: var(--orange-bg);
+  color: var(--orange);
+}
+
+.badge.hard {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag {
+  background: #f0f2f7;
+  color: #697286;
+
+  border-radius: 6px;
+  padding: 4px 7px;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   FILTERS
+   ========================================================= */
+
+.toolbar {
+  margin-bottom: 15px;
+}
+
+.filter-form {
+  display: flex;
+  gap: 8px;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+   ========================================================= */
+
+input,
+select,
+textarea {
+  width: 100%;
+
+  border: 1px solid #dfe3eb;
+  background: #fff;
+
+  border-radius: 8px;
+  padding: 10px 11px;
+
+  color: #20283a;
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #8587f4;
+  box-shadow: 0 0 0 3px rgba(91, 92, 240, .09);
+}
+
+.filter-form input {
+  max-width: 360px;
+}
+
+.filter-form select {
+  max-width: 190px;
+}
+
+
+/* =========================================================
+   PROBLEM FORM
+   ========================================================= */
+
+.form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 18px;
+  align-items: start;
+}
+
+.form-main {
+  display: grid;
+  gap: 18px;
+}
+
+.form-side {
+  position: relative;
+}
+
+.sticky {
+  position: sticky;
+  top: 20px;
+}
+
+.panel {
+  padding: 22px;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 18px;
+}
+
+.panel-heading p {
+  font-size: 12px;
+  margin: 4px 0 0;
+}
+
+label {
+  display: block;
+
+  font-size: 11px;
+  font-weight: 800;
+  color: #586173;
+
+  margin: 15px 0 6px;
+}
+
+label span {
+  color: var(--primary);
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.code-input,
+.code-block {
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+
+/* =========================================================
+   FLASH MESSAGES
+   ========================================================= */
+
+.flash-stack {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  z-index: 20;
+}
+
+.flash {
+  padding: 12px 16px;
+
+  border-radius: 9px;
+
+  background: #1d2234;
+  color: white;
+
+  font-size: 12px;
+
+  box-shadow: var(--shadow);
+  transition: .3s;
+}
+
+.flash.error {
+  background: #a83434;
+}
+
+.flash.success {
+  background: #147452;
+}
+
+
+/* =========================================================
+   PROBLEM DETAILS
+   ========================================================= */
+
+.detail-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 18px;
+}
+
+.detail-grid main {
+  display: grid;
+  gap: 18px;
+}
+
+.problem-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.problem-header h2 {
+  font-size: 27px;
+}
+
+.limits {
+  display: flex;
+  gap: 20px;
+  text-align: right;
+}
+
+.limits strong {
+  display: block;
+  font: 700 15px "Space Grotesk";
+}
+
+.limits span {
+  font-size: 10px;
+  color: #9299a8;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 22px 0;
+}
+
+
+/* =========================================================
+   CONTENT / CODE BLOCKS
+   ========================================================= */
+
+.prose {
+  white-space: pre-line;
+  line-height: 1.75;
+  color: #394153;
+  font-size: 13px;
+}
+
+.content-box {
+  background: #f7f8fb;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+
+  padding: 13px;
+
+  white-space: pre-wrap;
+  font: 12px/1.6 Consolas, monospace;
+  color: #3c4456;
+}
+
+.code-label {
+  font-size: 9px;
+  letter-spacing: .1em;
+
+  font-weight: 800;
+  color: #8b93a2;
+
+  margin: 12px 0 6px;
+}
+
+.code-block {
+  background: #171a2c;
+  color: #e5e8ff;
+
+  border-radius: 10px;
+  padding: 15px;
+
+  white-space: pre-wrap;
+  overflow: auto;
+
+  line-height: 1.55;
+  margin: 0;
+}
+
+.code-block.small {
+  font-size: 11px;
+  max-height: 150px;
+}
+
+
+/* =========================================================
+   TEST CASE GENERATOR
+   ========================================================= */
+
+.generator-panel {
+  position: sticky;
+  top: 20px;
+}
+
+.generator-status {
+  font-size: 11px;
+  color: #737d91;
+  margin: 10px 0;
+}
+
+.generated-mini {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+
+  padding: 10px;
+  margin: 8px 0;
+
+  background: #fafbfc;
+}
+
+.generated-mini pre {
+  font: 10px/1.5 Consolas, monospace;
+
+  max-height: 90px;
+  overflow: auto;
+
+  background: #f0f2f6;
+  padding: 7px;
+
+  border-radius: 6px;
+}
+
+.expected {
+  font-size: 10px;
+  color: #19815a;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TEST CASES
+   ========================================================= */
+
+.hidden {
+  display: none !important;
+}
+
+.tests-panel {
+  margin-top: 18px;
+}
+
+.count-pill {
+  background: #eef0f6;
+  color: #656e82;
+
+  border-radius: 999px;
+
+  font: 600 11px Inter;
+  padding: 3px 7px;
+}
+
+.test-add {
+  background: #f8f9fc;
+
+  border: 1px dashed #dce1ea;
+  border-radius: 10px;
+
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.test-list {
+  display: grid;
+  gap: 12px;
+}
+
+.test-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.test-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.icon-btn {
+  border: 0;
+  background: transparent;
+
+  color: #9aa1af;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  color: var(--red);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty {
+  text-align: center;
+  padding: 35px;
+  color: #8b93a2;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   SIDEBAR COLLAPSE / EXPAND CONTROLS
+   ========================================================= */
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-toggle,
+.sidebar-toggle-top {
+  border: 1px solid var(--line);
+
+  background: var(--surface);
+  color: #4e5669;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 9px;
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+
+  font-size: 17px;
+  line-height: 1;
+
+  transition: .18s;
+  flex: 0 0 auto;
+}
+
+.sidebar-toggle:hover,
+.sidebar-toggle-top:hover {
+  background: #eef0f6;
+  color: var(--primary);
+  border-color: #d9dcf0;
+}
+
+.sidebar-toggle {
+  display: none;
+
+  position: fixed;
+  left: 18px;
+  top: 18px;
+
+  z-index: 1000;
+
+  box-shadow: var(--shadow);
+}
+
+.sidebar-toggle-top {
+  display: grid;
+}
+
+
+/* =========================================================
+   COLLAPSED SIDEBAR
+   ========================================================= */
+
+.app-shell.sidebar-collapsed .sidebar {
+  transform: translateX(-100%);
+  visibility: hidden;
+}
+
+.app-shell.sidebar-collapsed .main {
+  margin-left: 0;
+  width: 100%;
+  padding-left: 80px;
+  padding-right: 42px;
+}
+
+body.sidebar-collapsed .sidebar-toggle {
+  display: grid;
+}
+
+.app-shell.sidebar-collapsed .sidebar-toggle-top {
+  display: none;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .sidebar {
+    width: 210px;
+  }
+
+  .main {
+    margin-left: 210px;
+    width: calc(100% - 210px);
+    padding: 25px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .detail-grid,
+  .form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky,
+  .generator-panel {
+    position: static;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin: 0;
+    width: 100%;
+    padding: 18px;
+  }
+
+  .topbar {
+    align-items: start;
+    gap: 10px;
+  }
+
+  .topbar .btn {
+    display: none;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-form {
+    flex-wrap: wrap;
+  }
+
+  .filter-form input,
+  .filter-form select {
+    max-width: none;
+  }
+
+  .table-card {
+    overflow: auto;
+  }
+
+  .table-card table {
+    min-width: 720px;
+  }
+
+  .hero {
+    padding: 24px;
+  }
+
+  .problem-header {
+    display: block;
+  }
+
+  .limits {
+    text-align: left;
+    margin-top: 15px;
+  }
+
+  .sidebar-toggle {
+    display: none !important;
+  }
+
+  .sidebar-toggle-top {
+    display: none;
+  }
+}
