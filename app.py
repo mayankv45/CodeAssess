@@ -1056,10 +1056,4 @@ def export_problem(problem_id):
 # =========================================================
 
 if __name__ == "__main__":
-    init_db()
-    seed_demo()
-    migrate_demo_data()
-
-    app.run(
-        debug=True
-    )
+    app.run(debug=True)
